@@ -126,6 +126,7 @@ func CreateTest(c echo.Context) (err error) {
 
 	res.Success = true
 	res.Message = "Test berhasil ditambahkan"
+	res.Data = test
 
 	return c.JSON(200, res)
 }
