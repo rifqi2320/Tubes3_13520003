@@ -1,7 +1,6 @@
-package kmp
+package libs
 
 import (
-	"DNATrain/hd"
 	"regexp"
 )
 
@@ -51,7 +50,7 @@ func KMP(seq, pattern string) float64 {
 				tempString += "0"
 			}
 			tempString += string(seq[:patternLength+i])
-			sim := float64(patternLength-hd.HammingDistance(tempString, string(pattern))) / float64(patternLength)
+			sim := float64(patternLength-HammingDistance(tempString, string(pattern))) / float64(patternLength)
 			if sim > similarity {
 				similarity = sim
 			}
@@ -62,7 +61,7 @@ func KMP(seq, pattern string) float64 {
 			for len(tempString) < patternLength {
 				tempString += "0"
 			}
-			sim := float64(patternLength-hd.HammingDistance(tempString, string(pattern))) / float64(patternLength)
+			sim := float64(patternLength-HammingDistance(tempString, string(pattern))) / float64(patternLength)
 			if sim > similarity {
 				similarity = sim
 			}
@@ -91,7 +90,7 @@ func KMP(seq, pattern string) float64 {
 					k1++
 					k2++
 				}
-				sim := float64(patternLength-hd.HammingDistance(tempString, string(pattern))) / float64(patternLength)
+				sim := float64(patternLength-HammingDistance(tempString, string(pattern))) / float64(patternLength)
 				if sim > similarity {
 					similarity = sim
 				}

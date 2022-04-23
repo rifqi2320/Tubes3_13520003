@@ -1,7 +1,6 @@
-package boyermoore
+package libs
 
 import (
-	"DNATrain/hd"
 	"regexp"
 )
 
@@ -50,7 +49,7 @@ func BoyerMoore(seq, pattern string) float64 {
 				tempString += "0"
 			}
 			tempString += string(seq[:i+1])
-			sim := float64(patternLength-hd.HammingDistance(tempString, string(pattern))) / float64(patternLength)
+			sim := float64(patternLength-HammingDistance(tempString, string(pattern))) / float64(patternLength)
 			if sim > similarity {
 				similarity = sim
 			}
@@ -61,7 +60,7 @@ func BoyerMoore(seq, pattern string) float64 {
 			for len(tempString) < patternLength {
 				tempString += "0"
 			}
-			sim := float64(patternLength-hd.HammingDistance(tempString, string(pattern))) / float64(patternLength)
+			sim := float64(patternLength-HammingDistance(tempString, string(pattern))) / float64(patternLength)
 			if sim > similarity {
 				similarity = sim
 			}
@@ -89,7 +88,7 @@ func BoyerMoore(seq, pattern string) float64 {
 					k1++
 					k2++
 				}
-				sim := float64(patternLength-hd.HammingDistance(tempString, string(pattern))) / float64(patternLength)
+				sim := float64(patternLength-HammingDistance(tempString, string(pattern))) / float64(patternLength)
 				if sim > similarity {
 					similarity = sim
 				}

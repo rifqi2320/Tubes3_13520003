@@ -1,4 +1,4 @@
-package hd
+package libs
 
 func HammingDistance(str1, str2 string) int {
 	var distance int
