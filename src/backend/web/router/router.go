@@ -13,5 +13,5 @@ func Init(e *echo.Echo)  {
 	e.POST("/penyakit/create", handler.CreatePenyakit)
 	e.GET("/test/get", handler.GetTest)
 	e.POST("/test/create", handler.CreateTest)
-	e.Logger.Fatal(e.Start(os.Getenv("PORT")))
+	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }
