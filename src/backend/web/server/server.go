@@ -9,11 +9,8 @@ import (
 )
 
 func Init() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		panic(err)
-	}
-
+	godotenv.Load(".env")
+	
 	e := echo.New()
 	e.HTTPErrorHandler = httpErrorHandler
 	router.Init(e)
