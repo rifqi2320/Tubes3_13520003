@@ -1,0 +1,43 @@
+input[type='file'] {
+  color: rgba(0, 0, 0, 0);
+  width: 120px;
+}
+
+form {
+  align-items: center;
+  align-content: center;
+  margin-right: 200px;
+}
+
+.file {
+  text-rendering: auto;
+  color: buttontext;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: center;
+  align-items: flex-start;
+  cursor: default;
+  background-color: buttonface;
+  box-sizing: border-box;
+  margin: 0em;
+  font: 400 11px system-ui;
+  padding: 1px 7px 2px;
+  border-width: 0px;
+  border-style: solid;
+  border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+  border-image: initial;
+  padding: 0px 0px;
+  border-radius: 5px;
+  margin: 10px 0px;
+  cursor: pointer;
+  font-size: 20px;
+  width: 60px;
+}
+
+label {
+  font-size: medium;
+}

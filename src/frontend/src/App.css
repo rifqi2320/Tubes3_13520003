@@ -2,15 +2,25 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.navigation {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0px;
+  background-color:darksalmon;
+  color: black;
+  box-shadow: 0 2px 2px 2px rgba(9, 9, 9, 0.23);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.head {
+  background-color: darksalmon;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  position: relative;
+  padding: 5px;
 }
 
 .App-header {
@@ -19,20 +29,90 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.inputPenyakit {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 25px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h4 {
+  padding: 0px;
+  border: 0px;
+  margin: 10px;
+  margin-bottom: 25px;
+}
+
+.submisi {
+  -webkit-appearance: button;
+  text-rendering: auto;
+  color: buttontext;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: center;
+  align-items: flex-start;
+  cursor: default;
+  background-color: green;
+  box-sizing: border-box;
+  margin: 0em;
+  font: 400 11px system-ui;
+  padding: 1px 7px 2px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+  border-image: initial;
+  padding: 10px 60px;
+  border-radius: 5px;
+  margin: 10px 0px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.DNATES {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.firstPage {
+  border-radius: 2%;
+  border: solid;
+  border-color:khaki;
+  margin: 50px;
+  padding: 100px;
+  padding-left: 225px;
+  padding-right: 225px;
+}
+
+.secondPage {
+  border-radius: 2%;
+  border: solid;
+  border-color:khaki;
+  margin: 50px;
+  padding: 50px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.juduldua {
+  margin-bottom: 50px;
+}
+
+footer {
+  background-color:darksalmon;
+  margin-top: 0px;
+  margin-bottom: -15px;
+  display: block;
+  margin-right: 0px;
+  margin-left: -8px;
+  padding: 2px;
 }
