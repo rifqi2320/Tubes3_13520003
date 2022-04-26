@@ -119,8 +119,10 @@ export default function Penyakit() {
                     setPenyakit(e.target.value);
                   }}
                 >
-                  {listPenyakit.map((penyakit) => (
-                    <option value={penyakit.nama}>{penyakit.nama}</option>
+                  {listPenyakit.map((penyakit, index) => (
+                    <option key={index} value={penyakit.nama}>
+                      {penyakit.nama}
+                    </option>
                   ))}
                 </Select>
               </FormControl>

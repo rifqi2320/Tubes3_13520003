@@ -92,8 +92,12 @@ export default function History() {
               }}
             >
               <option value="">Penyakit</option>
-              {listPenyakit.map((item) => {
-                return <option value={item.nama}>{item.nama}</option>;
+              {listPenyakit.map((item, index) => {
+                return (
+                  <option key={index} value={item.nama}>
+                    {item.nama}
+                  </option>
+                );
               })}
             </Select>
             <Select
