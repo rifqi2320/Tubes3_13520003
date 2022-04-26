@@ -8,6 +8,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func Init() {
@@ -17,6 +18,8 @@ func Init() {
 
 	e := echo.New()
 	e.HTTPErrorHandler = httpErrorHandler
+	e.Use(middleware.CORS())
+
 	router.Init(e)
 }
 
