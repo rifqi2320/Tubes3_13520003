@@ -2,7 +2,7 @@ import { Box, Button, Flex, Heading, HStack, Link, Text, VStack } from "@chakra-
 
 function SidebarButton({ children, buttonName, href, ...props }) {
   return (
-    <VStack w="100%" h={props.isOpen ? "100%" : "33%"} bg={"gray.600"} borderRadius={"xl"}>
+    <VStack w="100%" h={props.isOpen ? "100%" : "40%"} bg={"gray.600"} borderRadius={"xl"}>
       <Button
         border="1px solid lightgray"
         as={Link}
@@ -32,7 +32,7 @@ export default function Sidebar({ open }) {
           Hanarebanare no machi o tsunagu ressha wa itte shimatta ne
         </Text>
 
-        <VStack bg="white" h="100%" w="100%" borderRadius={"xl"}>
+        <VStack bg="gray.800" h="100%" w="100%" borderRadius={"xl"}>
           <SidebarButton isOpen={open[0]} buttonName="Tambah Penyakit" href="/tambah-penyakit">
             Non laborum sint reprehenderit et ea qui duis. Cupidatat sit incididunt dolore officia
             irure nulla consectetur. Officia voluptate dolor id aute quis eu proident ut do nostrud
@@ -44,12 +44,8 @@ export default function Sidebar({ open }) {
             labore id et officia minim.
           </SidebarButton>
           <SidebarButton isOpen={open[2]} buttonName="Cek History" href="/cek-history">
-            Ipsum velit laboris consequat amet enim. Aute ipsum anim culpa consequat dolor labore
-            consequat. Laboris nostrud voluptate dolor est velit sint magna. Sint laborum Lorem do
-            ipsum amet et do mollit sint dolore eiusmod commodo. Cupidatat incididunt magna do quis
-            amet eu consequat pariatur pariatur et elit elit labore magna. Esse eu ipsum
-            reprehenderit Lorem qui officia veniam occaecat dolor laborum occaecat ea. Cillum culpa
-            esse aliqua dolor cupidatat ullamco nisi.
+            Deserunt non Lorem nostrud laboris esse voluptate laboris do dolor. Nostrud non mollit
+            culpa qui do nulla enim. Culpa sint dolor duis non in magna aute.
           </SidebarButton>
         </VStack>
       </VStack>

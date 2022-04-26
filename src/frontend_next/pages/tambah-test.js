@@ -16,13 +16,21 @@ import {
 } from "@chakra-ui/react";
 import FileInput from "../components/forms/fileinput";
 import Sidebar from "../components/sidebar/sidebar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ax from "../lib/axios";
 
 export default function Penyakit() {
   const [pasien, setPasien] = useState("");
   const [DNA, setDNA] = useState("");
   const toast = useToast();
-  const listPenyakit = ["pilek", "batuk"];
+  const [penyakit, setPenyakit] = useState("");
+  const [listPenyakit, setListPenyakit] = useState([]);
+
+  useEffect(() => {
+    ax.get("/penyakit/get").then((res) => {
+      setListPenyakit([...res.data.data]);
+    });
+  }, []);
 
   const handleFile = (e) => {
     var file = e.target.files[0];
@@ -46,18 +54,52 @@ export default function Penyakit() {
       return;
     }
     toast({
-      title: "Sukses",
-      description: "Test berhasil dilakukan",
-      status: "success",
+      title: "Uploading",
+      description: "Uploading...",
+      status: "info",
+    });
+    ax.post("/test/create", {
+      nama: pasien,
+      dna: DNA,
+      nama_penyakit: penyakit,
+      matching_method: "KMP",
+    }).then((res) => {
+      if (res.data.success) {
+        toast({
+          title: "Sukses",
+          description: "Test berhasil dilakukan",
+          status: "success",
+        });
+      } else {
+        toast({
+          title: "Gagal",
+          description: "Test gagal dilakukan",
+          status: "error",
+        });
+      }
     });
   };
 
   return (
     <Flex w="100vw" h="100vh">
       <Sidebar open={[false, true, false]} />
-      <HStack w="100%" p={12}>
+      <HStack
+        w="100%"
+        p={6}
+        bgImage={"url('https://c.tenor.com/x8UIzwydU-gAAAAC/inabakumori-nukunuku-nigirimeshi.gif')"}
+        bgPosition={"40% 40%"}
+      >
         <VStack w="100%" h="80%" spacing={16}>
-          <Grid w="100%" row={2} gap={4} column={4} templateColumns="repeat(4,1fr)">
+          <Grid
+            w="100%"
+            row={2}
+            gap={4}
+            column={4}
+            p={6}
+            templateColumns="repeat(4,1fr)"
+            borderRadius={"xl"}
+            bg="white"
+          >
             <GridItem colSpan={3}>
               <FormControl>
                 <FormLabel>Nama Pasien</FormLabel>
@@ -72,11 +114,13 @@ export default function Penyakit() {
             <GridItem>
               <FormControl>
                 <FormLabel>Penyakit</FormLabel>
-                <Select>
+                <Select
+                  onChange={(e) => {
+                    setPenyakit(e.target.value);
+                  }}
+                >
                   {listPenyakit.map((penyakit) => (
-                    <option key={penyakit} value={penyakit}>
-                      {penyakit}
-                    </option>
+                    <option value={penyakit.nama}>{penyakit.nama}</option>
                   ))}
                 </Select>
               </FormControl>

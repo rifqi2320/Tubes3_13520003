@@ -16,6 +16,7 @@ import {
 import FileInput from "../components/forms/fileinput";
 import Sidebar from "../components/sidebar/sidebar";
 import { useState } from "react";
+import ax from "../lib/axios";
 
 export default function Penyakit() {
   const [penyakit, setPenyakit] = useState("");
@@ -44,18 +45,50 @@ export default function Penyakit() {
       return;
     }
     toast({
-      title: "Sukses",
-      description: "Test berhasil dilakukan",
-      status: "success",
+      title: "Uploading",
+      description: "Uploading...",
+      status: "info",
+    });
+    ax.post("penyakit/create", {
+      nama: penyakit,
+      dna: DNA,
+    }).then((res) => {
+      if (res.data.success) {
+        toast({
+          title: "Berhasil",
+          description: "Penyakit berhasil ditambahkan",
+          status: "success",
+        });
+      } else {
+        toast({
+          title: "Gagal",
+          description: "Penyakit gagal ditambahkan",
+          status: "error",
+        });
+      }
     });
   };
 
   return (
     <Flex w="100vw" h="100vh">
       <Sidebar open={[true, false, false]} />
-      <HStack w="100%" p={12}>
+      <HStack
+        w="100%"
+        p={6}
+        bgImage="url('https://c.tenor.com/5aPa1uP568wAAAAC/anime-inabakumori.gif')"
+        bgPosition={"30% 30%"}
+      >
         <VStack w="100%" h="80%" spacing={16}>
-          <Grid w="100%" row={2} gap={4} column={4} templateColumns="repeat(4,1fr)">
+          <Grid
+            w="100%"
+            row={2}
+            gap={4}
+            column={4}
+            bg="white"
+            p={6}
+            templateColumns="repeat(4,1fr)"
+            borderRadius={"xl"}
+          >
             <GridItem colSpan={4}>
               <FormControl>
                 <FormLabel>Nama Penyakit</FormLabel>
