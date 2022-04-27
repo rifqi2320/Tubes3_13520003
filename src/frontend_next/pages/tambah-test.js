@@ -8,6 +8,8 @@ import {
   Heading,
   HStack,
   Input,
+  Radio,
+  RadioGroup,
   Select,
   Text,
   Textarea,
@@ -25,10 +27,13 @@ export default function Penyakit() {
   const toast = useToast();
   const [penyakit, setPenyakit] = useState("");
   const [listPenyakit, setListPenyakit] = useState([]);
+  const [metode, setMetode] = useState("");
+  const [hasilTes, setHasilTes] = useState({});
 
   useEffect(() => {
     ax.get("/penyakit/get").then((res) => {
       setListPenyakit([...res.data.data]);
+      setPenyakit(res.data.data[0].nama);
     });
   }, []);
 
@@ -53,6 +58,48 @@ export default function Penyakit() {
       });
       return;
     }
+    if (/[^ATCG]/i.test(DNA)) {
+      toast({
+        title: "Gagal",
+        description: "Masukan DNA tidak valid",
+        status: "error",
+      });
+      return;
+    }
+
+    if (pasien == "") {
+      toast({
+        title: "Gagal",
+        description: "Nama pasien belum diisi",
+        status: "error",
+      });
+      return;
+    }
+    if (penyakit == "") {
+      toast({
+        title: "Gagal",
+        description: "Penyakit belum dipilih",
+        status: "error",
+      });
+      return;
+    }
+    if (metode == "") {
+      toast({
+        title: "Gagal",
+        description: "Metode belum dipilih",
+        status: "error",
+      });
+      return;
+    }
+    if (DNA == "") {
+      toast({
+        title: "Gagal",
+        description: "DNA belum diisi",
+        status: "error",
+      });
+      return;
+    }
+
     toast({
       title: "Uploading",
       description: "Uploading...",
@@ -62,7 +109,7 @@ export default function Penyakit() {
       nama: pasien,
       dna: DNA,
       nama_penyakit: penyakit,
-      matching_method: "KMP",
+      matching_method: metode,
     }).then((res) => {
       if (res.data.success) {
         toast({
@@ -70,6 +117,8 @@ export default function Penyakit() {
           description: "Test berhasil dilakukan",
           status: "success",
         });
+        console.log(res.data.data);
+        setHasilTes(res.data.data);
       } else {
         toast({
           title: "Gagal",
@@ -96,11 +145,11 @@ export default function Penyakit() {
             gap={4}
             column={4}
             p={6}
-            templateColumns="repeat(4,1fr)"
+            templateColumns="repeat(5,1fr)"
             borderRadius={"xl"}
             bg="white"
           >
-            <GridItem colSpan={3}>
+            <GridItem colSpan={4}>
               <FormControl>
                 <FormLabel>Nama Pasien</FormLabel>
                 <Input
@@ -127,7 +176,7 @@ export default function Penyakit() {
                 </Select>
               </FormControl>
             </GridItem>
-            <GridItem colSpan={2}>
+            <GridItem colSpan={3}>
               <FormControl>
                 <FormLabel>DNA Sekuens</FormLabel>
                 <Textarea
@@ -149,7 +198,35 @@ export default function Penyakit() {
                 <Text fontWeight={"light"}>Lakukan Tes</Text>
               </Button>
             </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl h="100%">
+                <RadioGroup
+                  h="100%"
+                  onChange={(e) => {
+                    setMetode(e);
+                  }}
+                >
+                  <HStack h="100%">
+                    <Text>Metode matching: </Text>
+                    <Radio value="KMP">KMP</Radio>
+                    <Radio value="Booyer-Moore">Boyer-Moore</Radio>
+                  </HStack>
+                </RadioGroup>
+              </FormControl>
+            </GridItem>
           </Grid>
+          {hasilTes.nama ? (
+            <VStack bg="white" w="60%" borderRadius={"3xl"} p={4}>
+              <Heading as="h1" size="xl">
+                Hasil
+              </Heading>
+              <Text>Waktu Tes: {new Date(hasilTes.tanggal).toLocaleString()}</Text>
+              <Text>Nama Pasien: {hasilTes.nama}</Text>
+              <Text>Nama Penyakit: {hasilTes.nama_penyakit}</Text>
+              <Text>Kecocokan: {hasilTes.kecocokan}</Text>
+              <Text>Hasil: {hasilTes.hasil ? "Benar" : "Salah"}</Text>
+            </VStack>
+          ) : null}
         </VStack>
       </HStack>
     </Flex>
