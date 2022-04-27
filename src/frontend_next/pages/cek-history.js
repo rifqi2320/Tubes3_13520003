@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Center,
   Flex,
   Heading,
@@ -7,6 +8,7 @@ import {
   Image,
   Input,
   Select,
+  Switch,
   Table,
   Tbody,
   Td,
@@ -24,16 +26,14 @@ export default function History() {
   const [data, setData] = useState([]);
   const [searchData, setSearchData] = useState([]);
   const [search, setSearch] = useState("");
-  const [listPenyakit, setListPenyakit] = useState([]);
-  const [penyakit, setPenyakit] = useState("");
   const [hasil, setHasil] = useState("");
+  const [urut, setUrut] = useState("");
+  const [ascModifier, setAscModifier] = useState(1);
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     ax.get("/test/get").then((res) => {
       setData([...res.data.data]);
-    });
-    ax.get("/penyakit/get").then((res) => {
-      setListPenyakit([...res.data.data]);
     });
   }, []);
 
@@ -41,25 +41,35 @@ export default function History() {
     setSearchData(
       data
         .filter((item) => {
-          return item.nama.toLowerCase().includes(search.toLowerCase());
-        })
-        .filter((item) => {
-          if (penyakit === "") {
-            return item;
-          } else {
-            return item.nama_penyakit == penyakit;
-          }
-        })
-        .filter((item) => {
-          console.log(item, hasil);
           if (hasil === "") {
             return item;
           } else {
             return item.hasil.toString() == hasil;
           }
         })
+        .sort((a, b) => {
+          if (urut === "") {
+            return ascModifier * (a.id - b.id);
+          } else if (urut === "tanggal") {
+            return ascModifier * (new Date(a.tanggal) - new Date(b.tanggal));
+          } else if (urut === "kecocokan") {
+            return ascModifier * (a.kecocokan - b.kecocokan);
+          } else if (urut === "nama") {
+            return ascModifier * a.nama.localeCompare(b.nama);
+          }
+        })
     );
-  }, [data, search, penyakit, hasil]);
+  }, [data, hasil, urut, ascModifier]);
+
+  const handleSearch = () => {
+    setData([]);
+    const a = search.split(" ");
+    const newTitle = a[a.length - 1];
+    setTitle([newTitle[0].toUpperCase(), newTitle.slice(1)].join(""));
+    ax.get(`/test/get?q=${search}`).then((res) => {
+      setData([...res.data.data]);
+    });
+  };
 
   return (
     <Flex w="100vw" h="100vh">
@@ -77,7 +87,7 @@ export default function History() {
           borderRadius={"xl"}
           overflowY="auto"
         >
-          <Heading>History</Heading>
+          <Heading mb={2}>History{title ? ` of ${title}` : null}</Heading>
           <HStack w="full">
             <Input
               placeholder="Search..."
@@ -85,21 +95,7 @@ export default function History() {
                 setSearch(e.target.value);
               }}
             />
-            <Select
-              w="25%"
-              onChange={(e) => {
-                setPenyakit(e.target.value);
-              }}
-            >
-              <option value="">Penyakit</option>
-              {listPenyakit.map((item, index) => {
-                return (
-                  <option key={index} value={item.nama}>
-                    {item.nama}
-                  </option>
-                );
-              })}
-            </Select>
+
             <Select
               w="25%"
               onChange={(e) => {
@@ -110,6 +106,29 @@ export default function History() {
               <option value={true}>Benar</option>
               <option value={false}>Salah</option>
             </Select>
+            <Select
+              w="40%"
+              onChange={(e) => {
+                setUrut(e.target.value);
+              }}
+            >
+              <option value="">Sort by</option>
+              <option value="tanggal">Tanggal</option>
+              <option value="nama">Nama</option>
+              <option value="kecocokan">Kecocokan</option>
+            </Select>
+
+            <Text>Asc</Text>
+            <Switch
+              onChange={(e) => {
+                setAscModifier(e.target.checked ? -1 : 1);
+              }}
+            />
+            <Text>Desc</Text>
+
+            <Button colorScheme={"blue"} fontWeight="light" w="25%" onClick={handleSearch}>
+              Search
+            </Button>
           </HStack>
           <Table variant="striped">
             <Thead position="sticky" top="-5px" bg="white" pt="5">
@@ -130,7 +149,7 @@ export default function History() {
                   <Td textAlign="center">{item.nama}</Td>
                   <Td textAlign="center">{item.nama_penyakit}</Td>
                   <Td textAlign="center">{item.kecocokan.toFixed(2)}</Td>
-                  <Td textAlign="center">{item.hasil ? "benar" : "salah"}</Td>
+                  <Td textAlign="center">{item.hasil ? "Benar" : "Salah"}</Td>
                 </Tr>
               ))}
             </Tbody>
