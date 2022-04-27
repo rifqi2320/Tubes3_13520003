@@ -5,6 +5,8 @@ import (
 	"backend/web/database"
 	"backend/web/model"
 	"database/sql"
+	"fmt"
+	"strings"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -57,9 +59,31 @@ func GetPenyakit(c echo.Context) (err error) {
 }
 
 func GetTest(c echo.Context) (err error) {
+	var result *sql.Rows;
+
 	res := new(model.Response)
 	listTest := &[]model.Test{}
-	result, err := db.Query("SELECT * FROM test")
+	q := c.QueryParam("q") 
+	date, nama_penyakit, err := libs.SearchRegex(q)
+	fmt.Println(date, nama_penyakit)
+
+	if err != nil {
+		return err
+	}
+
+	if (date == "" && nama_penyakit == "") {
+		result, err = db.Query("SELECT * FROM test")
+	}
+	if (date != "" && nama_penyakit != "") {
+		result, err = db.Query("SELECT * FROM test WHERE DATE(tanggal) = ? AND LOWER(nama_penyakit) = ?", date, strings.ToLower(nama_penyakit))
+	}
+	if (date != "" && nama_penyakit == "") {
+		result, err = db.Query("SELECT * FROM test WHERE DATE(tanggal) = ?", date)
+	}
+	if (date == "" && nama_penyakit != "") {
+		result, err = db.Query("SELECT * FROM test WHERE LOWER(nama_penyakit) = ?", strings.ToLower(nama_penyakit))
+	}
+
 	if err != nil {
 		return err
 	}
@@ -103,14 +127,21 @@ func CreateTest(c echo.Context) (err error) {
 		res.Message = "Penyakit tidak ditemukan"
 		return c.JSON(404, res)
 	case nil:
-		test.Nama = req.Nama
-		test.NamaPenyakit = req.NamaPenyakit
-		test.Tanggal = time.Now()
 		if (req.MatchingMethod == "KMP") {
 			test.Kecocokan = libs.KMP(req.DNA,penyakit.DNA)
 		} else {
 			test.Kecocokan = libs.BoyerMoore(req.DNA,penyakit.DNA)
 		}
+		if (test.Kecocokan <= 0) {
+			res.Success = false
+			res.Message = "Masukan tidak valid"
+			return c.JSON(400, res)
+		}
+
+		test.Nama = req.Nama
+		test.NamaPenyakit = req.NamaPenyakit
+		test.Tanggal = time.Now()
+		
 		test.Hasil = test.Kecocokan > 0.8
 	default:
 		return err
