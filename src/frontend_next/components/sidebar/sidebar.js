@@ -34,18 +34,16 @@ export default function Sidebar({ open }) {
 
         <VStack bg="gray.800" h="100%" w="100%" borderRadius={"xl"}>
           <SidebarButton isOpen={open[0]} buttonName="Tambah Penyakit" href="/tambah-penyakit">
-            Non laborum sint reprehenderit et ea qui duis. Cupidatat sit incididunt dolore officia
-            irure nulla consectetur. Officia voluptate dolor id aute quis eu proident ut do nostrud
-            elit commodo tempor.
+            Halaman ini dapat digunakan untuk menambahkan nama penyakit dan memasukkan sekuens DNA dari jenis penyakit yang hendak Anda tambahkan tersebut.
           </SidebarButton>
           <SidebarButton isOpen={open[1]} buttonName="Tambah Test" href="/tambah-test">
-            Ea ipsum culpa sint sunt dolor irure consequat incididunt enim sunt. Cupidatat elit in
-            elit non enim eu nisi pariatur ex pariatur velit ut dolor. Occaecat sunt ex cillum
-            labore id et officia minim.
+            Halaman ini digunakan untuk melakukan tes kecocokan DNA pengguna dengan penyakit yang telah tersedia di menu pilihan penyakit. 
+            Pengguna diminta untuk meng-input sekuens DNA miliknya. 
+            Pengguna dapat memilih metode matching DNA yang diinginkan, yaitu metode KMP maupun Boyer-Moore.
           </SidebarButton>
           <SidebarButton isOpen={open[2]} buttonName="Cek History" href="/cek-history">
-            Deserunt non Lorem nostrud laboris esse voluptate laboris do dolor. Nostrud non mollit
-            culpa qui do nulla enim. Culpa sint dolor duis non in magna aute.
+            Halaman ini menampilkan urutan hasil prediksi dengan kolom pencarian di dalamnya.
+            Pengguna dapat melihat history hasil prediksinya dengan menggunakan kolom pencarian dengan menginput nama pengguna.
           </SidebarButton>
         </VStack>
       </VStack>
