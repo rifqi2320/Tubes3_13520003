@@ -78,11 +78,19 @@ export default function Penyakit() {
         }
       })
       .catch((err) => {
-        toast({
-          title: "Gagal",
-          description: err.response.data.message,
-          status: "error",
-        });
+        if (err.response.data.message.includes("1062")) {
+          toast({
+            title: "Gagal",
+            description: "Penyakit sudah ada",
+            status: "error",
+          });
+        } else {
+          toast({
+            title: "Gagal",
+            description: err.response.data.message,
+            status: "error",
+          });
+        }
       });
   };
 
