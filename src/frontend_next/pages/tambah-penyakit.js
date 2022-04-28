@@ -36,14 +36,6 @@ export default function Penyakit() {
   };
 
   const handleSubmit = (e) => {
-    if (DNA.length > 255) {
-      toast({
-        title: "Gagal",
-        description: "DNA terlalu panjang",
-        status: "error",
-      });
-      return;
-    }
     if (penyakit == "") {
       toast({
         title: "Gagal",
@@ -69,21 +61,29 @@ export default function Penyakit() {
     ax.post("penyakit/create", {
       nama: penyakit,
       dna: DNA,
-    }).then((res) => {
-      if (res.data.success) {
-        toast({
-          title: "Berhasil",
-          description: "Penyakit berhasil ditambahkan",
-          status: "success",
-        });
-      } else {
+    })
+      .then((res) => {
+        if (res.data.success) {
+          toast({
+            title: "Berhasil",
+            description: "Penyakit berhasil ditambahkan",
+            status: "success",
+          });
+        } else {
+          toast({
+            title: "Gagal",
+            description: res.data.message,
+            status: "error",
+          });
+        }
+      })
+      .catch((err) => {
         toast({
           title: "Gagal",
-          description: res.data.message,
+          description: err.response.data.message,
           status: "error",
         });
-      }
-    });
+      });
   };
 
   return (

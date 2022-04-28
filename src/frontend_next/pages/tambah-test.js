@@ -50,14 +50,6 @@ export default function Penyakit() {
   };
 
   const handleSubmit = (e) => {
-    if (DNA.length > 255) {
-      toast({
-        title: "Gagal",
-        description: "DNA terlalu panjang",
-        status: "error",
-      });
-      return;
-    }
     if (pasien == "") {
       toast({
         title: "Gagal",
@@ -101,23 +93,30 @@ export default function Penyakit() {
       dna: DNA,
       nama_penyakit: penyakit,
       matching_method: metode,
-    }).then((res) => {
-      if (res.data.success) {
-        toast({
-          title: "Sukses",
-          description: "Test berhasil dilakukan",
-          status: "success",
-        });
-        console.log(res.data.data);
-        setHasilTes(res.data.data);
-      } else {
+    })
+      .then((res) => {
+        if (res.data.success) {
+          toast({
+            title: "Sukses",
+            description: "Test berhasil dilakukan",
+            status: "success",
+          });
+          setHasilTes(res.data.data);
+        } else {
+          toast({
+            title: "Gagal",
+            description: res.data.message,
+            status: "error",
+          });
+        }
+      })
+      .catch((err) => {
         toast({
           title: "Gagal",
-          description: "Test gagal dilakukan",
+          description: err.response.data.message,
           status: "error",
         });
-      }
-    });
+      });
   };
 
   return (
