@@ -44,6 +44,23 @@ export default function Penyakit() {
       });
       return;
     }
+    if (penyakit == "") {
+      toast({
+        title: "Gagal",
+        description: "Nama penyakit belum diisi",
+        status: "error",
+      });
+      return;
+    }
+    if (DNA == "") {
+      toast({
+        title: "Gagal",
+        description: "DNA belum diisi",
+        status: "error",
+      });
+      return;
+    }
+
     toast({
       title: "Uploading",
       description: "Uploading...",
@@ -62,7 +79,7 @@ export default function Penyakit() {
       } else {
         toast({
           title: "Gagal",
-          description: "Penyakit gagal ditambahkan",
+          description: res.data.message,
           status: "error",
         });
       }

@@ -58,15 +58,6 @@ export default function Penyakit() {
       });
       return;
     }
-    if (/[^ATCG]/.test(DNA)) {
-      toast({
-        title: "Gagal",
-        description: "Masukan DNA tidak valid",
-        status: "error",
-      });
-      return;
-    }
-
     if (pasien == "") {
       toast({
         title: "Gagal",

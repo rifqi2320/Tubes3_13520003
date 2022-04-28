@@ -145,7 +145,7 @@ export default function History() {
               {searchData.map((item, index) => (
                 <Tr key={index}>
                   <Td textAlign="center">{index + 1}</Td>
-                  <Td textAlign="center">{new Date(item.tanggal).toLocaleString()}</Td>
+                  <Td textAlign="center">{new Date(item.tanggal).toLocaleString("en-GB")}</Td>
                   <Td textAlign="center">{item.nama}</Td>
                   <Td textAlign="center">{item.nama_penyakit}</Td>
                   <Td textAlign="center">{item.kecocokan.toFixed(2)}</Td>
