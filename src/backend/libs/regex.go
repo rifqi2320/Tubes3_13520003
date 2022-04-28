@@ -16,7 +16,16 @@ func indexOf(element string, data []string) (int) {
 	return -1
 }
 
-func SearchRegex(q string) (string, string, error) {
+func SanitizeDNA(dna string) (error) {
+	DNARegex := regexp.MustCompile(`^[ATCG]+$`)
+	if !DNARegex.MatchString(dna) {
+		return errors.New("invalid DNA format")
+	}
+	return nil
+}
+
+
+func SplitSearch(q string) (string, string, error) {
 	dateRegex := regexp.MustCompile(`(?i)((\d{4})([-/\s])((0?[1-9])|(1[0-2])|(januari|februari|maret|april|mei|juni|juli|agustus|september|oktober|november|desember))([-/\s])(([0-2]?[0-9]|3[0-1]))|(([0-2]?[0-9]|3[0-1])([-/\s])((0?[1-9])|(1[0-2])|(januari|februari|maret|april|mei|juni|juli|agustus|september|oktober|november|desember))([-/\s])(\d{4})))`)
 	
 	months := []string{"januari", "februari", "maret", "april", "mei", "juni", "juli", "agustus", "september", "oktober", "november", "desember"}

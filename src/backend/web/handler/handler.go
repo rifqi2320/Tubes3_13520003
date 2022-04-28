@@ -24,6 +24,12 @@ func CreatePenyakit(c echo.Context) error {
 	if err := c.Bind(req); err != nil {
 		return err
 	}
+
+	if err := libs.SanitizeDNA(req.DNA); err != nil {
+		res.Success = false
+		res.Message = err.Error()
+		return c.JSON(400, res)
+	}
 	_, err := db.Exec("INSERT INTO penyakit (nama, dna) VALUES (?, ?)", req.Nama, req.DNA)
 	if err != nil {
 		return err
@@ -64,7 +70,7 @@ func GetTest(c echo.Context) (err error) {
 	res := new(model.Response)
 	listTest := &[]model.Test{}
 	q := c.QueryParam("q") 
-	date, nama_penyakit, err := libs.SearchRegex(q)
+	date, nama_penyakit, err := libs.SplitSearch(q)
 	fmt.Println(date, nama_penyakit)
 
 	if err != nil {
@@ -113,6 +119,12 @@ func CreateTest(c echo.Context) (err error) {
 
 	if err := c.Bind(req); err != nil {
 		return err
+	}
+
+	if err := libs.SanitizeDNA(req.DNA); err != nil {
+		res.Success = false
+		res.Message = err.Error()
+		return c.JSON(400, res)
 	}
 
 	result, err := db.Query("SELECT * FROM penyakit WHERE nama = ?", req.NamaPenyakit)
